@@ -1,0 +1,81 @@
+#! /bin/bash
+# Assignment 9 
+
+choice="0"
+while [ choice != "1" ] 
+do
+echo
+echo "Welcome to User Manager";
+echo
+echo "Select from the following menu:";
+echo
+echo "A) Create a user account";
+echo "B) Delete a user account";
+echo "C) Change Supplementary group for a user account";
+echo "D) Change initial group for a user account";
+echo "E) Change default login shell for a user account";
+echo "F) Change account expiration date for a user account";
+echo "Q) Quit"
+
+read menuSelect;
+
+if [ $menuSelect == 'Q' ] || [ $menuSelect == 'q' ]
+then
+	break 2;
+else
+while [ $menuSelect != "Q"  -a $menuSelect != 'q' ]
+do
+
+if [ $menuSelect == 'A' ] || [ $menuSelect == 'a' ]
+then 
+	echo "Enter the following:"
+	echo "Username: "; read userName;
+	echo "User's Home Directory: "; read homeDirectory;
+	echo "Default Login Shell: "; read loginShell; 
+	sudo useradd -d $homeDirectory $userName;
+	break;
+
+elif [ $menuSelect == 'B' ] || [ $menuSelect == 'b' ]
+then
+	echo "Enter the username of the account you wish to delete: "; read userName;
+	sudo userdel -r $userName; 
+	echo $userName " and their home directory has been deleted";
+	break;
+
+elif [ $menuSelect == 'C' ] || [ $menuSelect == 'c' ]
+then
+	echo "Enter the username of the account you'd like to alter: "; read userName; 
+	echo "Enter the name of the new supplementary group for the user: "; read supGroup; 
+	usermod -G $supGroup $userName; 
+	echo $userName " has been added to " $supGroup; 
+	break; 
+
+elif [ $menuSelect == 'D' ] || [ $menuSelect == 'd' ] 
+then
+	echo "Enter the username of the account you'd like to alter: "; read userName; 
+	echo "Enter the name of the new inital group for the user: "; read initGroup; 
+	usermod -g $initGroup $userName; 
+	echo "Primary group for user " $userName " has been changed to " $initGroup;
+	break;
+
+elif [ $menuSelect == 'E' ] || [ $menuSelect == 'e' ] 
+then 
+	echo "Enter the username of the account you'd like to alter: "; read userName; 
+	echo "Enter the default shell you'd like for the user: "; read defShell; 
+	chsh -s $defShell $userName; 
+	echo "The default shell for user " $userName " is now " $defShell;
+	break;
+
+elif [ $menuSelect == 'F' ] || [ $menuSelect == 'f' ]
+then 
+	echo "Enter the username of the account you'd like to alter: "; read userName; 
+	echo "Enter the new expiration date in the form YYYY-MM-DD: "; expDate; 
+	chage -E $expDate $userName; 
+	echo "The new expiry is " $expDate " for user " $userName; 
+	break;	
+fi
+done
+fi
+
+sleep 3;
+done
