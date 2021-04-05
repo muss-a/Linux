@@ -1,5 +1,6 @@
 #! /bin/bash
-# Assignment 9 
+# user_manager
+# This script allows the user to make various changes to a desired user account
 
 choice="0"
 while [ choice != "1" ] 
